@@ -1,7 +1,7 @@
 package bg.softuni.musicdb.config;
 
 import bg.softuni.musicdb.repository.UserRepository;
-import bg.softuni.musicdb.service.ApplicationUserDetailsService;
+import bg.softuni.musicdb.service.impl.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

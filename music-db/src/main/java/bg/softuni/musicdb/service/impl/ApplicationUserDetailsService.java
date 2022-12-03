@@ -1,8 +1,7 @@
-package bg.softuni.musicdb.service;
+package bg.softuni.musicdb.service.impl;
 
 import bg.softuni.musicdb.model.entity.UserEntity;
 import bg.softuni.musicdb.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -13,10 +12,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 public class ApplicationUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+
+    public ApplicationUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

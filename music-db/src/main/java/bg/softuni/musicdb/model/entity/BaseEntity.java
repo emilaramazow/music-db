@@ -1,12 +1,8 @@
 package bg.softuni.musicdb.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @MappedSuperclass
-@Getter
-@Setter
 public abstract class BaseEntity {
 
     @Id
@@ -14,4 +10,15 @@ public abstract class BaseEntity {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
+    public BaseEntity() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public BaseEntity setId(Long id) {
+        this.id = id;
+        return this;
+    }
 }

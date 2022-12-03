@@ -5,19 +5,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "roles")
-@NoArgsConstructor
-@Getter
-@Setter
 public class UserRoleEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
+    public UserRoleEntity() {
+    }
 
+    public UserRoleEnum getRole() {
+        return role;
+    }
+
+    public UserRoleEntity setRole(UserRoleEnum role) {
+        this.role = role;
+        return this;
+    }
 }
