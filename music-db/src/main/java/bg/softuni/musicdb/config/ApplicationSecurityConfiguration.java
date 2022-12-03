@@ -29,8 +29,9 @@ public class ApplicationSecurityConfiguration {
         http
                 .authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/about").permitAll()
-                .requestMatchers("users/login", "users/register").anonymous()
+                .requestMatchers("/js/**", "/css/**", "/img/**").permitAll()
+                .requestMatchers("/", "/users/login", "/users/register").permitAll()
+                .requestMatchers("/**").authenticated()
                 .requestMatchers("/users/profile").authenticated()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .requestMatchers("/user").hasRole("USER")
