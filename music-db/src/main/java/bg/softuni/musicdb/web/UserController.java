@@ -34,6 +34,8 @@ public class UserController {
         // if we have invalid username and password redirect to:
         modelAndView.setViewName("/login");
 
+        // second solution with redirectAttributes
+
         return modelAndView;
     }
 }

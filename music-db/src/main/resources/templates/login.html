@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/common::head">
+<head th:replace="~{fragments/common::head}">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>My Music DB Application</title>
@@ -12,7 +12,7 @@
     <script src="/js/bootstrap.min.js"></script>
 </head>
 <body>
-<header th:replace="fragments/common::navigation"> </header>
+<header th:replace="~{fragments/common::navigation}"> </header>
 <main class="p-5 align-content-center bg-blur my-register-div">
     <h1 class="text-light    border-bottom mb-5">Login</h1>
     <div class="d-flex justify-content-center">
@@ -34,6 +34,7 @@
                     <div class="col-auto">
                         <input type="text"
                                name="username"
+                               th:value="${username}"
                                id="inputUsername"
                                class="form-control"
                                aria-describedby="usernameHelpInline">
@@ -60,7 +61,7 @@
 
     </div>
 </main>
-<footer th:replace="fragments/common::footer">
+<footer th:replace="~{fragments/common::footer}">
 
 </footer>
 </body>
