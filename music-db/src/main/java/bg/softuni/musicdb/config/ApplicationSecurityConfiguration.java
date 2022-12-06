@@ -29,10 +29,10 @@ public class ApplicationSecurityConfiguration {
         http
                 .authorizeHttpRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-//                    .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
+                    .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
                     .requestMatchers("/", "/users/login", "/users/register").permitAll()
                     .requestMatchers("/**").authenticated()
-                    .requestMatchers("/users/profile").authenticated()
+//                    .requestMatchers("/users/profile").authenticated()
                     .requestMatchers("/admin").hasRole("ADMIN")
                     .requestMatchers("/user").hasRole("USER")
                 .and()
