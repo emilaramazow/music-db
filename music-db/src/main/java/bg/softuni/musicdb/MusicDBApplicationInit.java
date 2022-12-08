@@ -4,8 +4,6 @@ import bg.softuni.musicdb.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class MusicDBApplicationInit implements CommandLineRunner {
 

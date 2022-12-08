@@ -1,12 +1,13 @@
 package bg.softuni.musicdb.model.entity;
 
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class UserEntity extends BaseEntity {
+public class UserEntity extends bg.softuni.musicdb.model.entity.BaseEntity {
 
     @Column(nullable = false)
     private String name;
@@ -36,11 +37,11 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public List<UserRoleEntity> getRoles() {
+    public List<bg.softuni.musicdb.model.entity.UserRoleEntity> getRoles() {
         return roles;
     }
 
-    public UserEntity setRoles(List<UserRoleEntity> roles) {
+    public UserEntity setRoles(List<bg.softuni.musicdb.model.entity.UserRoleEntity> roles) {
         this.roles = roles;
         return this;
     }

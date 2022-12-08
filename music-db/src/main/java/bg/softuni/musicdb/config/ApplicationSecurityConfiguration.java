@@ -30,7 +30,7 @@ public class ApplicationSecurityConfiguration {
                 .authorizeHttpRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
-                    .requestMatchers("/", "/users/login", "/users/register").permitAll()
+                    .requestMatchers("/", "/users/login", "/users/register", "/home").permitAll()
                     .requestMatchers("/**").hasRole("ADMIN")
 //                    .requestMatchers("/users/profile").authenticated()
 //                    .requestMatchers("/admin").hasRole("ADMIN")

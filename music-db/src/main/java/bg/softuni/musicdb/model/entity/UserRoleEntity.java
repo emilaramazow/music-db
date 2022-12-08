@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roles")
-public class UserRoleEntity extends BaseEntity {
+public class UserRoleEntity extends bg.softuni.musicdb.model.entity.BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;

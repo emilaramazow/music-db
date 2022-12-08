@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/common::head" > </head>
+<head th:replace="~{fragments/common::head}" > </head>
 <body>
-<header th:replace="fragments/common::navigation" > </header>
+<header th:replace="~{fragments/common::navigation}" > </header>
 <main class="p-5 align-content-center bg-blur my-register-div">
     <h1 class="text-light border-bottom">Register</h1>
     <div class="d-flex justify-content-center ">
@@ -115,6 +115,6 @@
         </div>
     </div>
 </main>
-<footer th:replace="fragments/common::footer"> </footer>
+<footer th:replace="~{fragments/common::footer}"> </footer>
 </body>
 </html>
