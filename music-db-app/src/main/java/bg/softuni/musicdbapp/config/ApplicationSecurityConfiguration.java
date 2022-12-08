@@ -4,6 +4,7 @@ import bg.softuni.musicdbapp.repository.UserRepository;
 import bg.softuni.musicdbapp.service.impl.ApplicationUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,13 +12,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Configuration
 public class ApplicationSecurityConfiguration {
 
     // 1. Password Encoder
     // 2. Security Filter Chain
     // 3. User Details Service
 
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,9 +30,8 @@ public class ApplicationSecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
-                .requestMatchers("/", "/users/login", "/users/register", "/home").permitAll()
+                .requestMatchers("/", "/home", "/users/login", "/users/register").permitAll()
                 .requestMatchers("/**").hasRole("ADMIN")
-//                    .requestMatchers("/users/profile").authenticated()
 //                    .requestMatchers("/admin").hasRole("ADMIN")
 //                    .requestMatchers("/user").hasRole("USER")
                 .and()
