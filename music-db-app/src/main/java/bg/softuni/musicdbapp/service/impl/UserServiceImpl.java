@@ -3,6 +3,7 @@ package bg.softuni.musicdbapp.service.impl;
 import bg.softuni.musicdbapp.model.entity.UserEntity;
 import bg.softuni.musicdbapp.model.entity.UserRoleEntity;
 import bg.softuni.musicdbapp.model.enums.UserRoleEnum;
+import bg.softuni.musicdbapp.model.service.UserRegistrationServiceModel;
 import bg.softuni.musicdbapp.repository.UserRepository;
 import bg.softuni.musicdbapp.repository.UserRoleRepository;
 import bg.softuni.musicdbapp.service.UserService;
@@ -46,5 +47,11 @@ public class UserServiceImpl implements UserService {
 
             userRepository.saveAll(List.of(admin, user));
         }
+    }
+
+    @Override
+    public void registerAndLoginUser(UserRegistrationServiceModel serviceModel) {
+        throw new UnsupportedOperationException("NOT YET");
+        //TODO : coming soon!
     }
 }

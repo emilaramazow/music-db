@@ -36,19 +36,18 @@ public class ApplicationSecurityConfiguration {
 //                    .requestMatchers("/user").hasRole("USER")
                 .and()
                 .formLogin()
-                .loginPage("/users/login").permitAll()
-                .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
-                .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-                .defaultSuccessUrl("/home")
-                .failureForwardUrl("/users/login-error")
+                    .loginPage("/users/login").permitAll()
+                    .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
+                    .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
+                    .defaultSuccessUrl("/home")
+                    .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()
-                .logoutUrl("/users/logout")
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/home");
-
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID");
 
         return http.build();
     }
