@@ -10,21 +10,23 @@ import java.util.List;
 public class UserEntity extends BaseEntity {
 
     @Column(nullable = false)
-    private String name;
+    private String username;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String fullName;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles = new ArrayList<>();
 
     public UserEntity() {
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public UserEntity setName(String name) {
-        this.name = name;
+    public UserEntity setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -43,6 +45,20 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setRoles(List<bg.softuni.musicdbapp.model.entity.UserRoleEntity> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public UserEntity addRole(UserRoleEntity roleEntity) {
+        this.roles.add(roleEntity);
+        return this;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public UserEntity setFullName(String fullName) {
+        this.fullName = fullName;
         return this;
     }
 }

@@ -7,6 +7,12 @@ import bg.softuni.musicdbapp.model.service.UserRegistrationServiceModel;
 import bg.softuni.musicdbapp.repository.UserRepository;
 import bg.softuni.musicdbapp.repository.UserRoleRepository;
 import bg.softuni.musicdbapp.service.UserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +24,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
+    private final UserDetailsService userDetailsService;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -35,11 +45,13 @@ public class UserServiceImpl implements UserService {
             userRoleRepository.saveAll(List.of(adminRole, userRole));
 
             UserEntity admin = new UserEntity()
-                    .setName("admin")
+                    .setUsername("admin")
+                    .setFullName("Admin Adminov")
                     .setPassword(passwordEncoder.encode("123456"));
 
             UserEntity user = new UserEntity()
-                    .setName("user")
+                    .setUsername("user")
+                    .setFullName("User Userov")
                     .setPassword(passwordEncoder.encode("123456"));
 
             admin.setRoles(List.of(adminRole, userRole));
@@ -51,7 +63,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerAndLoginUser(UserRegistrationServiceModel serviceModel) {
-        throw new UnsupportedOperationException("NOT YET");
-        //TODO : coming soon!
+        UserEntity newUser = modelMapper.map(serviceModel, UserEntity.class);
+        newUser.setPassword(passwordEncoder.encode(serviceModel.getPassword()));
+
+        UserRoleEntity userRole = userRoleRepository
+                .findByRole(UserRoleEnum.USER)
+                .orElseThrow(() -> new IllegalStateException("User role not found. Please, seed the roles!"));
+
+        newUser.addRole(userRole);
+        newUser = userRepository.save(newUser);
+
+        UserDetails principal = userDetailsService.loadUserByUsername(newUser.getUsername());
+
+        // create object from type Authentication and take securityContextHolder from spring and put this authentication inside
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                principal,
+                newUser.getPassword(),
+                principal.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
     }
+
 }

@@ -1,5 +1,6 @@
 package bg.softuni.musicdbapp.config;
 
+import bg.softuni.musicdbapp.service.impl.ApplicationUserDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,6 @@ public class ApplicationBeanConfiguration {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
 
 
 }
