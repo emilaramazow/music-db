@@ -8,10 +8,10 @@ public class UserRegistrationBindingModel {
 
 
     @NotEmpty
-    @Min(3)
+    @Size(min = 3)
     private String fullName;
     @NotEmpty
-    @Min(3)
+    @Size(min = 3)
     private String username;
     @NotEmpty
     @Email

@@ -54,7 +54,9 @@ public class UserController {
             return "redirect:/users/register";
         }
 
-        // validation:
+        // todo : validate if username exist
+
+
         userService.registerAndLoginUser(userServiceModel);
 
         return "redirect:/home";
