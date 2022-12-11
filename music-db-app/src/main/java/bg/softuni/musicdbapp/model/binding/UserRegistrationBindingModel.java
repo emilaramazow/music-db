@@ -1,11 +1,25 @@
 package bg.softuni.musicdbapp.model.binding;
 
+import bg.softuni.musicdbapp.model.validators.FieldMatch;
+import jakarta.validation.constraints.*;
+
+@FieldMatch(first = "password", second = "confirmPassword")
 public class UserRegistrationBindingModel {
 
-    private String username;
+
+    @NotEmpty
+    @Min(3)
     private String fullName;
+    @NotEmpty
+    @Min(3)
+    private String username;
+    @NotEmpty
+    @Email
     private String email;
+    @NotEmpty
+    @Size(min = 5, max = 20)
     private String password;
+    @NotEmpty
     private String confirmPassword;
 
     public UserRegistrationBindingModel() {

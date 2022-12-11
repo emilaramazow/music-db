@@ -3,14 +3,17 @@ package bg.softuni.musicdbapp.web;
 import bg.softuni.musicdbapp.model.binding.UserRegistrationBindingModel;
 import bg.softuni.musicdbapp.model.service.UserRegistrationServiceModel;
 import bg.softuni.musicdbapp.service.UserService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/users")
@@ -24,6 +27,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    // model attributes which initialize the object in register template (th:object="registrationBindingModel")
+    @ModelAttribute("registrationBindingModel")
+    public UserRegistrationBindingModel createBindingModel() {
+        return new UserRegistrationBindingModel();
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -35,8 +44,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerAndLoginUser(UserRegistrationBindingModel registrationBindingModel) {
+    public String registerAndLoginUser(@Valid UserRegistrationBindingModel registrationBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         UserRegistrationServiceModel userServiceModel = modelMapper.map(registrationBindingModel, UserRegistrationServiceModel.class);
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("registrationBindingModel", registrationBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registrationBindingModel", bindingResult);
+
+            return "redirect:/users/register";
+        }
 
         // validation:
         userService.registerAndLoginUser(userServiceModel);
