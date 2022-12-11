@@ -45,7 +45,6 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerAndLoginUser(@Valid UserRegistrationBindingModel registrationBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        UserRegistrationServiceModel userServiceModel = modelMapper.map(registrationBindingModel, UserRegistrationServiceModel.class);
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("registrationBindingModel", registrationBindingModel);
@@ -54,8 +53,14 @@ public class UserController {
             return "redirect:/users/register";
         }
 
-        // todo : validate if username exist
+        if (userService.usernameExists(registrationBindingModel.getUsername())) {
+            redirectAttributes.addFlashAttribute("registrationBindingModel", registrationBindingModel);
+            redirectAttributes.addFlashAttribute("userExistsError", true);
 
+            return "redirect:/users/register";
+        }
+
+        UserRegistrationServiceModel userServiceModel = modelMapper.map(registrationBindingModel, UserRegistrationServiceModel.class);
 
         userService.registerAndLoginUser(userServiceModel);
 
