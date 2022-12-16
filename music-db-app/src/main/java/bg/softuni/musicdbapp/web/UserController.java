@@ -68,19 +68,15 @@ public class UserController {
     }
 
     @PostMapping("/login-error")
-
     // we put field name where is the user form where is username (in ModelAttribute)
-    public ModelAndView failedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("bad_credentials", true);
-        modelAndView.addObject("username", username);
+    public String failedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
+                              String username,
+                              RedirectAttributes attributes) {
 
-        // if we have invalid username and password redirect to:
-        modelAndView.setViewName("/login");
+        attributes.addFlashAttribute("bad_credentials", true);
+        attributes.addFlashAttribute("username", username);
 
-        // second solution with redirectAttributes
-
-        return modelAndView;
+        return "redirect:/users/login";
     }
 }
