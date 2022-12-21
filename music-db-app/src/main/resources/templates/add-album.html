@@ -7,7 +7,9 @@
 <main class="p-5 bg-blur text-center">
     <h1 class="text-light border-bottom">Add Album</h1>
     <div class="d-flex justify-content-center">
-        <form action="/" method="" 
+        <form th:action="@{/albums/add}"
+              th:object="${albumAddBindingModel}"
+              method="post"
               class="text-light">
             <div class="form-row m-5">
                 <div class="col">
@@ -26,24 +28,24 @@
             <div class="form-row m-5">
                 <div class="col">
                     <label for="price">Price</label>
-                    <input id="price" type="number" class="form-control" placeholder="Price">
+                    <input th:value="*{price}" id="price" name="price" type="number" class="form-control" placeholder="Price">
                     <small id="priceError" class="form-text bg-danger rounded">Price must be positive</small>
                 </div>
                 <div class="col">
                     <label for="copies">Copies</label>
-                    <input id="copies" type="number" class="form-control" placeholder="Copies">
+                    <input th:value="*{copies}" id="copies" name="copies" type="number" class="form-control" placeholder="Copies">
                     <small id="copiesError" class="form-text bg-danger rounded">Copies must be positive</small>
                 </div>
             </div>
             <div class="form-row m-5">
                 <div class="col">
                     <label for="releaseDate">Release date</label>
-                    <input id="releaseDate" type="date" class="form-control" placeholder="Release date">
+                    <input th:value="*{releaseDate}" id="releaseDate" name="releaseDate" type="date" class="form-control" placeholder="Release date">
                     <small id="releaseDateError" class="form-text bg-danger rounded">Release date cannot be in the future</small>
                 </div>
                 <div class="col">
                     <label for="videoUrl">Video Url</label>
-                    <input id="videoUrl" type="text" class="form-control" placeholder="Video url">
+                    <input th:value="*{videoURL}" id="videoUrl" name="videoUrl" type="text" class="form-control" placeholder="Video url">
                 </div>
             </div>
             <div class="form-row m-5">
@@ -58,10 +60,11 @@
                 </div>
                 <div class="col">
                     <label for="genre">Genre</label>
-                    <select id="genre" class="custom-select">
+                    <select th:field="*{genre}" id="genre" name="genre" class="custom-select">
                         <option value="" selected>Select genre</option>
-                        <option value="">First genre</option>
-						<option value="">Second genre</option>
+                        <option th:each="g : ${T(bg.softuni.musicdbapp.model.enums.AlbumGenreEnum).values()}"
+                                th:value="${g}"
+                                th:text="${g}">Select genre</option>
                     </select>
                     <small id="genreError" class="form-text bg-danger rounded">You must select genre</small>
                 </div>
