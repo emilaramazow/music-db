@@ -15,6 +15,7 @@ public class AlbumViewModel {
     private BigDecimal price;
     private Instant releaseDate;
     private AlbumGenreEnum genre;
+    private String artist;
 
     public AlbumViewModel() {
     }
@@ -88,6 +89,15 @@ public class AlbumViewModel {
 
     public AlbumViewModel setGenre(AlbumGenreEnum genre) {
         this.genre = genre;
+        return this;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public AlbumViewModel setArtist(String artist) {
+        this.artist = artist;
         return this;
     }
 }

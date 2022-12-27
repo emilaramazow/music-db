@@ -2,6 +2,7 @@ package bg.softuni.musicdbapp.web;
 
 import bg.softuni.musicdbapp.model.binding.AlbumAddBindingModel;
 import bg.softuni.musicdbapp.model.service.AlbumServiceModel;
+import bg.softuni.musicdbapp.model.view.AlbumViewModel;
 import bg.softuni.musicdbapp.service.AlbumService;
 import bg.softuni.musicdbapp.service.ArtistService;
 import jakarta.validation.Valid;
@@ -70,5 +71,19 @@ public class AlbumController {
         albumService.createAlbum(albumServiceModel);
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable Long id, Model model) {
+
+        // take album from albumService
+        // pass to the model like object
+        // return the template
+
+        AlbumViewModel albumViewModel = albumService.findById(id);
+
+        model.addAttribute("album", albumViewModel);
+
+        return "details";
     }
 }

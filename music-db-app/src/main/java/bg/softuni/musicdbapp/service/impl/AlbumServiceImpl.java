@@ -4,6 +4,7 @@ import bg.softuni.musicdbapp.model.entity.AlbumEntity;
 import bg.softuni.musicdbapp.model.entity.ArtistEntity;
 import bg.softuni.musicdbapp.model.entity.UserEntity;
 import bg.softuni.musicdbapp.model.service.AlbumServiceModel;
+import bg.softuni.musicdbapp.model.view.AlbumViewModel;
 import bg.softuni.musicdbapp.repository.AlbumRepository;
 import bg.softuni.musicdbapp.repository.UserRepository;
 import bg.softuni.musicdbapp.service.AlbumService;
@@ -41,5 +42,18 @@ public class AlbumServiceImpl implements AlbumService {
 
         albumRepository.save(albumEntity);
 
+    }
+
+    @Override
+    public AlbumViewModel findById(Long id) {
+        return albumRepository
+                .findById(id)
+                .map(albumEntity -> {
+                    AlbumViewModel albumViewModel = modelMapper
+                            .map(albumEntity, AlbumViewModel.class);
+                    albumViewModel.setArtist(albumEntity.getArtistEntity().getName());
+                    return albumViewModel;
+                })
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
