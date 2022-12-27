@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/common::head"></head>
+<head th:replace="~{fragments/common::head}"></head>
 <body>
-<header th:replace="fragments/common::navigation"></header>
+<header th:replace="~{fragments/common::navigation}"></header>
 <main class="p-5 align-content-center bg-blur ">
     <div class="col-sm-12 my-auto ">
         <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
@@ -67,7 +67,7 @@
         <!-- EO: Start single album -->
     </div>
 </main>
-<footer th:replace="fragments/common::footer"></footer>
+<footer th:replace="~{fragments/common::footer}"></footer>
 <script th:src="@{js/search-bar.js}"></script>
 </body>
 </html>

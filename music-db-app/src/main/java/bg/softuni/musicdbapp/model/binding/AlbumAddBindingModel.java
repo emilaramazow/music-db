@@ -1,6 +1,11 @@
 package bg.softuni.musicdbapp.model.binding;
 
 import bg.softuni.musicdbapp.model.enums.AlbumGenreEnum;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.math.BigDecimal;
@@ -8,15 +13,22 @@ import java.time.LocalDate;
 
 public class AlbumAddBindingModel {
 
+    @NotNull
     private AlbumGenreEnum genre;
+    @Size(min =  4, max = 20)
     private String name;
+    @Size(min =  5)
     private String imageURL;
     private String videoURL;
+    @Size(min =  4)
     private String description;
+    @Min(0)
     private Integer copies;
+    @DecimalMin("0")
     private BigDecimal price;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
-
+    private String artist;
 
     public AlbumGenreEnum getGenre() {
         return genre;
@@ -87,6 +99,15 @@ public class AlbumAddBindingModel {
 
     public AlbumAddBindingModel setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
+        return this;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public AlbumAddBindingModel setArtist(String artist) {
+        this.artist = artist;
         return this;
     }
 
