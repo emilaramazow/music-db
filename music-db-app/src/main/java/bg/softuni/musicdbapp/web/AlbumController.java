@@ -31,10 +31,10 @@ public class AlbumController {
     }
 
     @GetMapping("/add")
-    public Model addAlbum(Model model) {
+    public String addAlbum(Model model) {
        model.addAttribute("artists", artistService.findAllArtists());
 
-        return model;
+        return "add-album";
     }
 
     @PostMapping("/add")

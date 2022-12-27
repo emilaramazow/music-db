@@ -4,7 +4,7 @@ import bg.softuni.musicdbapp.model.enums.AlbumGenreEnum;
 
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 public class AlbumAddBindingModel {
 
@@ -15,7 +15,7 @@ public class AlbumAddBindingModel {
     private String description;
     private Integer copies;
     private BigDecimal price;
-    private Instant releaseDate;
+    private LocalDate releaseDate;
 
 
     public AlbumGenreEnum getGenre() {
@@ -81,11 +81,11 @@ public class AlbumAddBindingModel {
         return this;
     }
 
-    public Instant getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public AlbumAddBindingModel setReleaseDate(Instant releaseDate) {
+    public AlbumAddBindingModel setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
         return this;
     }
