@@ -5,8 +5,8 @@ services:
     ports:
       - "3306:3306"
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_bin']
-    environment:
-      - MYSQL_DATABASE=music_database_application
+#    environment:
+#      - MYSQL_DATABASE=music_database_application
   musicdb:
     image: emil/mymusicdb:v1
     ports:
