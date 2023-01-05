@@ -10,7 +10,6 @@
 	</parent>
 	<groupId>bg.softuni</groupId>
 	<artifactId>music-db-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>music-db-app</name>
 	<description>MusicDB Application</description>
 	<properties>
