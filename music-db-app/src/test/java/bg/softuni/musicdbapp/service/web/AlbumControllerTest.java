@@ -8,6 +8,7 @@ import bg.softuni.musicdbapp.repository.AlbumRepository;
 import bg.softuni.musicdbapp.repository.ArtistRepository;
 import bg.softuni.musicdbapp.repository.UserRepository;
 import bg.softuni.musicdbapp.web.AlbumController;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -51,11 +53,31 @@ public class AlbumControllerTest {
     @Test
     @WithMockUser(value = "emil", roles = {"USER", "ADMIN"})
     void shouldReturnValidStatusViewNameAndModel() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get(ALBUM_CONTROLLER_PREFIX + "/details/{id}", testAlbumId))
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(ALBUM_CONTROLLER_PREFIX + "/details/{id}", testAlbumId))
                 .andExpect(status().isOk())
                 .andExpect(view().name("details"))
                 .andExpect(model().attributeExists("album"));
+    }
+
+    @Test
+    @WithMockUser(value = "emil", roles = {"USER", "ADMIN"})
+    void addAlbum() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(ALBUM_CONTROLLER_PREFIX + "/add")
+                        .param("name", "test album")
+                        .param("genre", "AlbumGenreEnum.METAL.name()")
+                        .param("imageURL", "https://upload.wikimedia.org/wikipedia/en/f/f5/Metallica_-_Nothing_Else_Matters_cover.jpg")
+                        .param("videoURL", "tAGnKpE4NCI")
+                        .param("description", "description test")
+                        .param("copies", "12321")
+                        .param("price", "10")
+                        .param("releaseDate", "1998-05-03")
+                        .param("artist", "Metallica")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection());
+
+        Assertions.assertEquals(1, albumRepository.count());
     }
 
     private void init() {
