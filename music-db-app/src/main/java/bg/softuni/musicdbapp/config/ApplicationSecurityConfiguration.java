@@ -31,6 +31,7 @@ public class ApplicationSecurityConfiguration {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
                 .requestMatchers("/", "/users/login", "/users/register").permitAll()
+                .requestMatchers("/articles/add").hasRole("ADMIN")
                 .requestMatchers("/**").authenticated()
 //                    .requestMatchers("/admin").hasRole("ADMIN")
 //                    .requestMatchers("/user").hasRole("USER")
