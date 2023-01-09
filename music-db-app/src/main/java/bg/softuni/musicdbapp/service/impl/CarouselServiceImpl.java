@@ -1,6 +1,7 @@
 package bg.softuni.musicdbapp.service.impl;
 
 import bg.softuni.musicdbapp.service.CarouselService;
+import bg.softuni.musicdbapp.service.ImageShuffler;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +20,13 @@ import java.util.List;
 @Service
 public class CarouselServiceImpl implements CarouselService {
 
-    private Logger LOGGER = LoggerFactory.getLogger(CarouselServiceImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CarouselServiceImpl.class);
 
     private final List<String> images = new ArrayList<>();
+    private final ImageShuffler imageShuffler;
 
-    public CarouselServiceImpl(@Value("${carousel.images}") List<String> images) {
+    public CarouselServiceImpl(@Value("${carousel.images}") List<String> images, ImageShuffler imageShuffler) {
+        this.imageShuffler = imageShuffler;
         this.images.addAll(images);
     }
     // check if we have enough images for the carousel
@@ -57,7 +60,7 @@ public class CarouselServiceImpl implements CarouselService {
     @Scheduled(cron = "${carousel.refresh-cron}")
     public void refresh() {
         LOGGER.info("Shuffling images...");
-        Collections.shuffle(images);
+        imageShuffler.shuffle(images);
     }
 
 }
