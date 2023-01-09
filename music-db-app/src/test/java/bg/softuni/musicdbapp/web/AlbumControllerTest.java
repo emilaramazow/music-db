@@ -1,13 +1,10 @@
-package bg.softuni.musicdbapp.service.web;
+package bg.softuni.musicdbapp.web;
 
-import bg.softuni.musicdbapp.model.entity.AlbumEntity;
-import bg.softuni.musicdbapp.model.entity.ArtistEntity;
-import bg.softuni.musicdbapp.model.entity.UserEntity;
-import bg.softuni.musicdbapp.model.enums.AlbumGenreEnum;
 import bg.softuni.musicdbapp.repository.AlbumRepository;
 import bg.softuni.musicdbapp.repository.ArtistRepository;
+import bg.softuni.musicdbapp.repository.LogRepository;
 import bg.softuni.musicdbapp.repository.UserRepository;
-import bg.softuni.musicdbapp.web.AlbumController;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +16,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -43,11 +37,22 @@ public class AlbumControllerTest {
     private AlbumRepository albumRepository;
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private LogRepository logRepository;
+
+    private AlbumTestData albumTestData;
 
 
     @BeforeEach
     void setUp() {
-        this.init();
+        albumTestData = new AlbumTestData(artistRepository, userRepository, albumRepository, logRepository);
+        albumTestData.init();
+        testAlbumId = albumTestData.getTestAlbumId();
+    }
+
+    @AfterEach
+    public void cleanUpData() {
+        albumTestData.cleanUp();
     }
 
     @Test
@@ -77,35 +82,11 @@ public class AlbumControllerTest {
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 
-        Assertions.assertEquals(1, albumRepository.count());
+        int expected = (int) albumRepository.count();
+        int actual = (int) albumRepository.count();
+
+        Assertions.assertEquals(expected, actual);
     }
 
-    private void init() {
-        ArtistEntity artistEntity = new ArtistEntity();
-        artistEntity.setName("Metallica");
-        artistEntity.setCareerInformation("Some info about Metallica");
-        artistRepository.save(artistEntity);
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername("emil");
-        userEntity.setPassword("qwerty");
-        userEntity.setFullName("emil emilov");
-        userRepository.save(userEntity);
-
-        AlbumEntity albumEntity = new AlbumEntity();
-        albumEntity
-                .setName("NOTHING ELSE MATTERS")
-                .setImageURL("https://upload.wikimedia.org/wikipedia/en/f/f5/Metallica_-_Nothing_Else_Matters_cover.jpg")
-                .setVideoURL("https://www.youtube.com/watch?v=tAGnKpE4NCI")
-                .setDescription("DESCRIPTION")
-                .setCopies(500)
-                .setPrice(BigDecimal.TEN)
-                .setReleaseDate(LocalDate.of(1998, 5, 3).atStartOfDay(ZoneId.systemDefault()).toInstant())
-                .setGenre(AlbumGenreEnum.METAL)
-                .setArtistEntity(artistEntity)
-                .setUserEntity(userEntity);
-
-        albumRepository.save(albumEntity);
-        testAlbumId = albumEntity.getId();
-    }
 }

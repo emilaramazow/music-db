@@ -17,7 +17,7 @@ searchBar.addEventListener('keyup', (e) => {
     const searchingCharacters = searchBar.value.toLowerCase();
     let filteredAlbums = allAlbums.filter(album => {
         return album.name.toLowerCase().includes(searchingCharacters)
-        || album.artistEntity.name.toLowerCase().includes(searchingCharacters)
+        || album.artist.toLowerCase().includes(searchingCharacters)
     });
     displayAlbums(filteredAlbums);
 })

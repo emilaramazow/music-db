@@ -1,6 +1,5 @@
 package bg.softuni.musicdbapp.web;
 
-import bg.softuni.musicdbapp.model.entity.AlbumEntity;
 import bg.softuni.musicdbapp.model.view.AlbumViewModel;
 import bg.softuni.musicdbapp.repository.AlbumRepository;
 import org.modelmapper.ModelMapper;
@@ -25,9 +24,20 @@ public class AlbumRestController {
     }
 
     @GetMapping("/api")
-    public ResponseEntity<List<AlbumEntity>> findAll() {
+    public ResponseEntity<List<AlbumViewModel>> findAll() {
+
+        List<AlbumViewModel> albumViewModels = albumRepository
+                .findAll()
+                .stream()
+                .map(ae -> {
+                    AlbumViewModel viewModel = modelMapper.map(ae, AlbumViewModel.class);
+                    viewModel.setArtist(ae.getArtistEntity().getName());
+                    return viewModel;
+                })
+                .collect(Collectors.toList());
+
         return ResponseEntity
                 .ok()
-                .body(albumRepository.findAll());
+                .body(albumViewModels);
     }
 }

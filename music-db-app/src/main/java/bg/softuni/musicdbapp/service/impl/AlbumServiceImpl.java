@@ -1,5 +1,6 @@
 package bg.softuni.musicdbapp.service.impl;
 
+import bg.softuni.musicdbapp.exceptions.ObjectNotFoundException;
 import bg.softuni.musicdbapp.model.entity.AlbumEntity;
 import bg.softuni.musicdbapp.model.entity.ArtistEntity;
 import bg.softuni.musicdbapp.model.entity.UserEntity;
@@ -54,11 +55,11 @@ public class AlbumServiceImpl implements AlbumService {
                     albumViewModel.setArtist(albumEntity.getArtistEntity().getName());
                     return albumViewModel;
                 })
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(ObjectNotFoundException::new);
     }
 
     @Override
     public AlbumEntity findEntityById(Long albumId) {
-        return albumRepository.findById(albumId).orElseThrow(IllegalArgumentException::new);
+        return albumRepository.findById(albumId).orElseThrow(ObjectNotFoundException::new);
     }
 }
