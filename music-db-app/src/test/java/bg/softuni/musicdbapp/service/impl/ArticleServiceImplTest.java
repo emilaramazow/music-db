@@ -5,6 +5,7 @@ import bg.softuni.musicdbapp.model.entity.UserEntity;
 import bg.softuni.musicdbapp.model.enums.AlbumGenreEnum;
 import bg.softuni.musicdbapp.model.view.ArticleViewModel;
 import bg.softuni.musicdbapp.repository.ArticleRepository;
+import bg.softuni.musicdbapp.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,9 @@ public class ArticleServiceImplTest {
 
     @Mock
     ArticleRepository mockArticleRepository;
+
+    @Mock
+    UserRepository mockUserRepository;
 
     @BeforeEach
     public void init() {
@@ -53,7 +57,7 @@ public class ArticleServiceImplTest {
 
         when(mockArticleRepository.findAll()).thenReturn(List.of(article, article2));
 
-        serviceToTest = new ArticleServiceImpl(new ModelMapper(), mockArticleRepository);
+        serviceToTest = new ArticleServiceImpl(new ModelMapper(), mockArticleRepository, mockUserRepository);
     }
 
     @Test
@@ -79,5 +83,6 @@ public class ArticleServiceImplTest {
 
     }
 
+    //TODO: create test for article creation
 
 }
