@@ -15,7 +15,6 @@ public class ArticleAddBindingModel {
     @Size(min = 5)
     private String imageURL;
     @NotNull
-    @Size(min = 5)
     private AlbumGenreEnum genre;
     private String content;
 

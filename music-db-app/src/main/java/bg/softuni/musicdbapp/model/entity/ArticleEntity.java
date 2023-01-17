@@ -3,6 +3,8 @@ package bg.softuni.musicdbapp.model.entity;
 import bg.softuni.musicdbapp.model.enums.AlbumGenreEnum;
 import jakarta.persistence.*;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "articles")
 public class ArticleEntity extends BaseEntity {
@@ -16,6 +18,8 @@ public class ArticleEntity extends BaseEntity {
     private AlbumGenreEnum genre;
     @Column(nullable = false)
     private String content;
+    @Column(nullable = false)
+    private Instant createdOn;
 
     @ManyToOne
     private UserEntity userEntity;
@@ -65,6 +69,15 @@ public class ArticleEntity extends BaseEntity {
 
     public ArticleEntity setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+        return this;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public ArticleEntity setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
         return this;
     }
 }

@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
@@ -55,13 +56,13 @@ public class ArticleServiceImplTest {
         article2.setContent("second content");
         article2.setUserEntity(user2);
 
-        when(mockArticleRepository.findAll()).thenReturn(List.of(article, article2));
-
         serviceToTest = new ArticleServiceImpl(new ModelMapper(), mockArticleRepository, mockUserRepository);
     }
 
     @Test
     public void testFindAll() {
+        when(mockArticleRepository.findAll()).thenReturn(List.of(article, article2));
+
         List<ArticleViewModel> allModels = serviceToTest.findAllArticles();
 
         Assertions.assertEquals(2, allModels.size());
@@ -83,6 +84,28 @@ public class ArticleServiceImplTest {
 
     }
 
-    //TODO: create test for article creation
+    @Test
+    public void testLatestArticle() {
+        when(mockArticleRepository.findTopByOrderByCreatedOnDesc())
+                .thenReturn(Optional.of(article));
 
+        Optional<ArticleViewModel> articleViewOpt = serviceToTest.findLatestArticle();
+
+        Assertions.assertTrue(articleViewOpt.isPresent());
+        ArticleViewModel actualModel = articleViewOpt.get();
+
+        Assertions.assertEquals(article.getTitle(), actualModel.getTitle());
+        Assertions.assertEquals(article.getContent(), actualModel.getContent());
+        // and so on...
+    }
+
+    @Test
+    public void testLatestArticleNotFound() {
+        when(mockArticleRepository.findTopByOrderByCreatedOnDesc())
+                .thenReturn(Optional.empty());
+
+        Optional<ArticleViewModel> articleViewOpt = serviceToTest.findLatestArticle();
+
+        Assertions.assertTrue(articleViewOpt.isEmpty());
+    }
 }

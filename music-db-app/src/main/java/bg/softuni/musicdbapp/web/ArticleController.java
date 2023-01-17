@@ -2,6 +2,7 @@ package bg.softuni.musicdbapp.web;
 
 import bg.softuni.musicdbapp.model.binding.ArticleAddBindingModel;
 import bg.softuni.musicdbapp.model.service.ArticleServiceModel;
+import bg.softuni.musicdbapp.model.view.ArticleViewModel;
 import bg.softuni.musicdbapp.repository.ArticleRepository;
 import bg.softuni.musicdbapp.service.ArticleService;
 import jakarta.validation.Valid;
@@ -9,12 +10,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/articles")
@@ -36,7 +40,13 @@ public class ArticleController {
     }
 
     @GetMapping("/all")
-    public String getAllArticles() {
+    public String getAllArticles(Model model) {
+        Optional<ArticleViewModel> articleOpt = articleService.findLatestArticle();
+
+        if (articleOpt.isPresent()) {
+            model.addAttribute("latestArticle", articleOpt.get());
+        }
+
         return "all-articles";
     }
 
@@ -55,7 +65,7 @@ public class ArticleController {
             redirectAttributes.addFlashAttribute("articleAddBindingModel", articleAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.articleAddBindingModel", bindingResult);
 
-            return "redirect:add";
+            return "redirect:/articles/add";
         }
 
         ArticleServiceModel articleServiceModel = modelMapper.map(articleAddBindingModel, ArticleServiceModel.class);
@@ -64,7 +74,7 @@ public class ArticleController {
 
         articleService.createArticle(articleServiceModel);
 
-        return "redirect:/all-articles";
+        return "redirect:/articles/all";
     }
 
 }

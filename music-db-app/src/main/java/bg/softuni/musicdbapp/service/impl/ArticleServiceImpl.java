@@ -10,7 +10,9 @@ import bg.softuni.musicdbapp.service.ArticleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +30,17 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    public Optional<ArticleViewModel> findLatestArticle() {
+        return articleRepository
+                .findTopByOrderByCreatedOnDesc()
+                .map(ae -> {
+                    ArticleViewModel avm = modelMapper.map(ae, ArticleViewModel.class);
+                    avm.setAuthor(ae.getUserEntity().getUsername());
+                    return avm;
+                });
+    }
+
+    @Override
     public List<ArticleViewModel> findAllArticles() {
         return articleRepository
                 .findAll()
@@ -43,6 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void createArticle(ArticleServiceModel articleServiceModel) {
         ArticleEntity articleEntity = modelMapper.map(articleServiceModel, ArticleEntity.class);
+        articleEntity.setCreatedOn(Instant.now());
 
         UserEntity creator = userRepository.findByUsername(articleServiceModel.getUserName())
                 .orElseThrow(() -> new IllegalArgumentException("Creator " + articleServiceModel.getUserName() + " was not found"));
